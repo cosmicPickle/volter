@@ -15,8 +15,9 @@
 
 Route::get('/','HomeController@index');
 
-Route::get('profile',array("before" =>"fblogin", "uses" => "ProfileController@index"));
-
+//Authentications routes (login, logout)
 Route::get('login', array("before" =>"fblogin", "as" => "login", "uses" => "ProfileController@login"));
-
 Route::get('logout', array("before" =>"fblogin", "as" => "logout", "uses" => "ProfileController@logout"));
+
+//Main profile route
+Route::get('profile',array("before" =>"fblogin", "uses" => "ProfileController@index"));
