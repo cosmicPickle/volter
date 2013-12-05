@@ -17,8 +17,10 @@ class Achievement extends Eloquent {
     
     public function noUser($fb_uid)
     {
+        //TODO: Update selects
         return $achs = DB::table('achievements')
                         ->leftJoin('achievement_records','achievement_records.achievement_id', '=', 'achievements.id')
+                        ->leftJoin('categories', 'achievements.cat_id', '=', 'categories.id')
                         ->where('achievement_records.fb_uid', '!=', $fb_uid)
                         ->orWhereNull('achievement_records.fb_uid')
                         ->get();

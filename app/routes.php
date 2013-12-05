@@ -21,3 +21,8 @@ Route::get('logout', array("before" =>"fblogin", "as" => "logout", "uses" => "Pr
 
 //Main profile route
 Route::get('profile',array("before" =>"fblogin", "uses" => "ProfileController@index"));
+
+//Achievement routes
+Route::get('achievements/all',array("before" =>"fblogin", "uses" => "AchievementsController@all"));
+Route::get('achievements/records', array("before" => "fblogin", "uses" => "AchievementsController@records"));
+Route::get('achievements/not_records', array("before" => "fblogin", "uses" => "AchievementsController@notRecords"));
