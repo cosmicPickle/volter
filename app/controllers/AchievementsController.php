@@ -60,8 +60,8 @@ class AchievementsController extends BaseController {
         {
              $ach = new Achievement();
              
-             var_dump($ach->noUser(Input::get('fb_uid', FacebookUtils::fb()->getUser())));
+             $ach = $ach->noUser(Input::get('fb_uid', FacebookUtils::fb()->getUser()));
              
-             var_dump(DB::getQueryLog());
+             echo json_encode($ach);
         }
 }

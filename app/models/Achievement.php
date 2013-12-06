@@ -19,6 +19,7 @@ class Achievement extends Eloquent {
     {
         //TODO: Update selects
         return $achs = DB::table('achievements')
+                        ->select('achievements.*', 'categories.name as cat_name', 'categories.description as cat_desc')
                         ->leftJoin('achievement_records','achievement_records.achievement_id', '=', 'achievements.id')
                         ->leftJoin('categories', 'achievements.cat_id', '=', 'categories.id')
                         ->where('achievement_records.fb_uid', '!=', $fb_uid)

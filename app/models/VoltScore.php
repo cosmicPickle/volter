@@ -1,6 +1,6 @@
 <?php
 
-class VoltScores extends Eloquent {
+class VoltScore extends Eloquent {
     
     protected $table = 'volt_scores';
     protected $fillable = array('*');
