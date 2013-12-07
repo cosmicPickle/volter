@@ -2,12 +2,32 @@
 
 class ProfileController extends BaseController {
         
-	public function index()
+        protected $layout = "layouts.default.template";
+        protected $activeUser;
+        protected $loggedUser;
+        protected $displayData = array();
+        
+        public function __construct() {
+            $this->displayData = array(
+                "achvPerLine" => 5,
+                "achvPerLineReduced" => 3,
+                "achvLinesPerLoad" => 3,
+                "voltsPerLine" => 3,
+                "voltsLinesPerLoad" => 3,
+                "activeUser" => & $this->activeUser,
+                "loggedUser" => & $this->loggedUser
+            ); 
+        }
+	public function index($fbUid = NULL)
 	{
-            $this->uid = FacebookUtils::fb()->getUser();
-            $ach = new Achievement();
+            $this->loggedUser = FacebookUtils::fb()->getUser();
+            $this->activeUser = $fbUid ? $fbUid : $this->loggedUser;
             
-            var_dump($ach->noUser($this->uid));
+            //$this->displayData['activeUser'] = $this->activeUser;
+            //$this->displayData['loggedUser'] = $this->loggedUser;
+            
+            $this->layout->content = View::make('layouts.default.profile')->with($this->displayData);
+            
 	}
         
         public function login()

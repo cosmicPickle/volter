@@ -57,16 +57,16 @@ class VoltsController extends BaseController {
         $fromUid = Input::get('from_uid', FacebookUtils::fb()->getUser());
         
         //You cheater! You won't get to volt for yourself!
-        //if($fromUid == $toUid)
-        //   return NULL;
+        if($fromUid == $toUid)
+           return NULL;
         
         $hasVolted = Volt::where('from_uid', $fromUid)
                           ->where('to_uid', $toUid)
                           ->where('cat_id', $catId)->count();
         
         //You can't make your friends just volt for you 1000 times either
-        //if($hasVolted)
-        //    return NULL;
+        if($hasVolted)
+            return NULL;
         
         //Adding the volt to the history
         $volt = new Volt();
@@ -152,6 +152,6 @@ class VoltsController extends BaseController {
         $user = User::find($toUid);
         $user->achievements()->sync(array_fetch($achievements->toArray(),'id'));
         
-        return 1;
+        return TRUE;
     }
 }

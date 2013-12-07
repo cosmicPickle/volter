@@ -7,9 +7,9 @@ class HomeController extends BaseController {
 	public function index()
 	{
             if(!FacebookUtils::fb()->getUser())
-                $this->layout->authArea = View::make("layouts.default.guest");
+                $this->layout->content = View::make("layouts.default.guest");
             else
-                $this->layout->authArea = View::make("layouts.default.member");
+                $this->layout->content = View::make("layouts.default.member");
             
 	}
 

@@ -20,14 +20,14 @@ Route::get('login', array("before" =>"fblogin", "as" => "login", "uses" => "Prof
 Route::get('logout', array("before" =>"fblogin", "as" => "logout", "uses" => "ProfileController@logout"));
 
 //Main profile route
-Route::get('profile',array("before" =>"fblogin", "uses" => "ProfileController@index"));
+Route::get('profile/{fb_uid?}',array("before" =>"fblogin", "uses" => "ProfileController@index"));
 
 //Achievement routes
-Route::get('achievements/all',array("before" =>"fblogin", "uses" => "AchievementsController@all"));
-Route::get('achievements/records', array("before" => "fblogin", "uses" => "AchievementsController@records"));
-Route::get('achievements/not_records', array("before" => "fblogin", "uses" => "AchievementsController@notRecords"));
+Route::any('achievements/all',array("before" =>"fblogin", "uses" => "AchievementsController@all"));
+Route::any('achievements/records', array("before" => "fblogin", "uses" => "AchievementsController@records"));
+Route::any('achievements/not_records', array("before" => "fblogin", "uses" => "AchievementsController@notRecords"));
 
 //Volts routes
-Route::get('volts/scores',array("before" =>"fblogin", "uses" => "VoltsController@scores"));
-Route::get('volts/history',array("before" =>"fblogin", "uses" => "VoltsController@history"));
-Route::get('volts/volt/{toUid}/{catId}/{volt}',array("before" =>"fblogin", "uses" => "VoltsController@volt"));
+Route::any('volts/scores',array("before" =>"fblogin", "uses" => "VoltsController@scores"));
+Route::any('volts/history',array("before" =>"fblogin", "uses" => "VoltsController@history"));
+Route::any('volts/volt/{toUid}/{catId}/{volt}',array("before" =>"fblogin", "uses" => "VoltsController@volt"));
