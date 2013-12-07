@@ -20,5 +20,20 @@ class FacebookUtils {
         {
             return self::$fb;
         }
+        
+        public function getPictureUrl($type = NULL, $fb_uid = NULL)
+        {
+            $fb_uid = $fb_uid ? $fb_uid : self::$fb->getUser();
+            
+            $picture = self::$fb->api('/'.$fb_uid.'/picture?redirect=false'.(($type) ? "&type=".$type : NULL));
+            return $picture['data']['url'];
+        }
+        
+        public function user($fb_uid = NULL)
+        {
+            $fb_uid = $fb_uid ? $fb_uid : self::$fb->getUser();
+            
+            return (object) self::$fb->api('/'.$fb_uid);
+        }
 }
 

@@ -20,7 +20,8 @@ Route::get('login', array("before" =>"fblogin", "as" => "login", "uses" => "Prof
 Route::get('logout', array("before" =>"fblogin", "as" => "logout", "uses" => "ProfileController@logout"));
 
 //Main profile route
-Route::get('profile/{fb_uid?}',array("before" =>"fblogin", "uses" => "ProfileController@index"));
+Route::get('/{action}/{fb_uid?}',array("before" =>"fblogin", "uses" => "ProfileController@index"))
+     ->where(array('action' => '(profile|achievements|volts|history)','fb_uid' => '[0-9]+'));
 
 //Achievement routes
 Route::any('achievements/all',array("before" =>"fblogin", "uses" => "AchievementsController@all"));

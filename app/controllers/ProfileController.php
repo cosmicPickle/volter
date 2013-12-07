@@ -2,32 +2,41 @@
 
 class ProfileController extends BaseController {
         
-        protected $layout = "layouts.default.template";
+        protected $theme = "layouts.default";
+        protected $layout = "profile_template";
         protected $activeUser;
         protected $loggedUser;
         protected $displayData = array();
         
         public function __construct() {
+            
+            $this->layout = $this->theme.".".$this->layout;
+            
             $this->displayData = array(
                 "achvPerLine" => 5,
                 "achvPerLineReduced" => 3,
                 "achvLinesPerLoad" => 3,
                 "voltsPerLine" => 3,
                 "voltsLinesPerLoad" => 3,
+                "voltsHistoryPerLoad" => 10,
                 "activeUser" => & $this->activeUser,
                 "loggedUser" => & $this->loggedUser
             ); 
+            
         }
-	public function index($fbUid = NULL)
+	public function index($action = 'profile', $fbUid = NULL)
 	{
             $this->loggedUser = FacebookUtils::fb()->getUser();
             $this->activeUser = $fbUid ? $fbUid : $this->loggedUser;
+            $this->layout->with($this->displayData);
             
-            //$this->displayData['activeUser'] = $this->activeUser;
-            //$this->displayData['loggedUser'] = $this->loggedUser;
+            $method = "_".$action;
             
-            $this->layout->content = View::make('layouts.default.profile')->with($this->displayData);
+            if(method_exists($this, $method))
+               $this->{$method}();
             
+            if(View::exists($this->theme.'.'.$action))
+                $this->layout->content = View::make($this->theme.'.'.$action)->with($this->displayData);
 	}
         
         public function login()
@@ -49,6 +58,5 @@ class ProfileController extends BaseController {
         {
             FacebookUtils::fb()->destroySession();
             return Redirect::to('/');
-        }
-        
+        }  
 }
