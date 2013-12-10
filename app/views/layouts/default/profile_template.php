@@ -15,9 +15,10 @@
                     </div>
                 </div>
                 <ul id="profile-nav">
-                    <li><a href=""> Volts </a></li>
-                    <li><a href=""> Achievements </a></li>
-                    <li><a href=""> History </a></li>
+                    <li><a href="<?php echo URL::to('profile/'.$activeUser); ?>"> Profile </a></li>
+                    <li><a href="<?php echo URL::to('volts/'.$activeUser); ?>"> Volts </a></li>
+                    <li><a href="<?php echo URL::to('achievements/'.$activeUser); ?>"> Achievements </a></li>
+                    <li><a href="<?php echo URL::to('history/'.$activeUser); ?>"> History </a></li>
                 </ul>
             </div>
             <div id="profile-content">

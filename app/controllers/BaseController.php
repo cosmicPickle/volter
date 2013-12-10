@@ -2,6 +2,7 @@
 
 class BaseController extends Controller {
 
+        protected $theme = "layouts.default";
 	/**
 	 * Setup the layout used by the controller.
 	 *

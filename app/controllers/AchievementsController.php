@@ -17,6 +17,8 @@ class AchievementsController extends BaseController {
                 
                 return $query;
                 
+            }, 'achievements.users' => function($query){
+                $query->where('users.fb_uid',Input::get('fb_uid', FacebookUtils::fb()->getUser()));
             }));
             
             //If we have a cat_id filter we want to select achievements from a certain category only
@@ -26,7 +28,7 @@ class AchievementsController extends BaseController {
             $achievements = $achievements->get();
             
             //returning the rendered collection in json
-            echo json_encode($achievements->toArray());
+            return View::make($this->theme.'.dynamic.achievements.all')->with(array('achievements' => $achievements));
 	}
         
         public function records()
@@ -53,7 +55,7 @@ class AchievementsController extends BaseController {
                 return $achievement->category->name;
             });
             
-            echo json_encode($user->toArray());
+            return View::make($this->theme.'.dynamic.achievements.records')->with(array('user' => $user));
         }
         
         public function notRecords()
@@ -62,6 +64,6 @@ class AchievementsController extends BaseController {
              
              $ach = $ach->noUser(Input::get('fb_uid', FacebookUtils::fb()->getUser()));
              
-             echo json_encode($ach);
+             return View::make($this->theme.'.dynamic.achievements.not_records')->with(array('achievements' => $ach));;
         }
 }

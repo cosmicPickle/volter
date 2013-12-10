@@ -12,7 +12,7 @@ class Category extends Eloquent {
     
     public function voltScores()
     {
-        return $this->hasMany('VoltScores','cat_id');
+        return $this->hasMany('VoltScore','cat_id');
     }
     
     public function achievements()

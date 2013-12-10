@@ -2,7 +2,6 @@
 
 class ProfileController extends BaseController {
         
-        protected $theme = "layouts.default";
         protected $layout = "profile_template";
         protected $activeUser;
         protected $loggedUser;
@@ -35,8 +34,8 @@ class ProfileController extends BaseController {
             if(method_exists($this, $method))
                $this->{$method}();
             
-            if(View::exists($this->theme.'.'.$action))
-                $this->layout->content = View::make($this->theme.'.'.$action)->with($this->displayData);
+            if(View::exists($this->theme.'.static.'.$action))
+                $this->layout->content = View::make($this->theme.'.static.'.$action)->with($this->displayData);
 	}
         
         public function login()
