@@ -4,11 +4,12 @@ class VoltsController extends BaseController {
 
     public function scores()
     {
-        $fbUid = Input::get('fb_uid', FacebookUtils::fb()->getUser());
+        $this->loggedUser = FacebookUtils::fb()->getUser();
+        $this->activeUser = Input::get('fb_uid', $this->loggedUser);    
         
         $scores = Category::select('volt_scores.*','categories.*')
                           ->leftJoin('volt_scores','volt_scores.cat_id','=','categories.id')
-                          ->where('fb_uid',$fbUid)
+                          ->where('fb_uid',$this->activeUser)
                           ->orWhereNull('fb_uid');
         
         //Add cat_id filter
@@ -23,21 +24,22 @@ class VoltsController extends BaseController {
         if(Input::has('limit'))
             $scores->skip(Input::get('offset',0))->take(Input::get('limit'));
         
-        $scores = $scores->get();
+        $this->displayData['scores'] = $scores->get();
         
-        $overall = $scores->find(1);
-        return View::make($this->theme.'.dynamic.volts.scores')->with(array('scores' => $scores));
+        return View::make($this->theme.'.dynamic.volts.scores')->with($this->displayData);
     }
     
     
     public function history()
     {
+        $this->loggedUser = FacebookUtils::fb()->getUser();
+        $this->activeUser = Input::get('fb_uid', $this->loggedUser);  
+        
         $volts = Volt::with(('category'))
                       ->where(function($query){
-                          
-                          $fbUid = Input::get('fb_uid', FacebookUtils::fb()->getUser());
-                          $query->where('from_uid',$fbUid)
-                                ->orWhere('to_uid',$fbUid);
+
+                          $query->where('from_uid',$this->activeUser)
+                                ->orWhere('to_uid',$this->activeUser);
                           
                       });
         
@@ -69,28 +71,33 @@ class VoltsController extends BaseController {
         foreach($fql_resp as $u)
             $users[$u['id']] = $u['name'];
         
-        return View::make($this->theme.'.dynamic.volts.history')->with(array('volts' => $volts, 'users' => $users));
+        $this->displayData['volts'] = $volts;
+        $this->displayData['users'] = $users;
+        
+        return View::make($this->theme.'.dynamic.volts.history')->with($this->displayData);
     }
     
     public function volt($toUid, $catId, $volt_val)
     {
-        $fromUid = Input::get('from_uid', FacebookUtils::fb()->getUser());
+        $this->loggedUser = FacebookUtils::fb()->getUser();
+        $this->activeUser = Input::get('fb_uid', $this->loggedUser);
+            
         
         //You cheater! You won't get to volt for yourself!
-        //if($fromUid == $toUid)
-        //   return NULL;
+        if($this->activeUser == $toUid)
+           return NULL;
         
-        $hasVolted = Volt::where('from_uid', $fromUid)
+        $hasVolted = Volt::where('from_uid', $this->activeUser)
                           ->where('to_uid', $toUid)
                           ->where('cat_id', $catId)->count();
         
         //You can't make your friends just volt for you 1000 times either
-        //if($hasVolted)
-        //    return NULL;
+        if($hasVolted)
+            return NULL;
         
         //Adding the volt to the history
         $volt = new Volt();
-        $volt->from_uid = $fromUid;
+        $volt->from_uid = $this->activeUser;
         $volt->to_uid = $toUid;
         $volt->cat_id = $catId;
         $volt->volt = $volt_val;

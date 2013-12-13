@@ -114,6 +114,7 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
                 'Volter\FacebookUtils\FacebookUtilsServiceProvider',
+                'Volter\VolterHelpers\VolterHelpersServiceProvider',
 	),
 
 	/*
@@ -179,6 +180,7 @@ return array(
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
                 'FacebookUtils'   => 'Volter\FacebookUtils\FacebookUtilsFacade',
+                'VolterHelpers'   => 'Volter\VolterHelpers\VolterHelpersFacade',
 	),
 
 );

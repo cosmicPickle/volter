@@ -1,3 +1,26 @@
+<div class="ajax-links">
+    All |
+    <?php 
+        echo VolterHelpers::generateAjaxLink(
+                'achievements/records',
+                'Earned',
+                $activeUser,
+                Input::get('ref_id'),
+                array_merge(array('limit' => $achvPerLoad),Input::except(array('ref_id', 'fb_uid')))
+             );
+        
+        echo " | ";
+        
+        echo VolterHelpers::generateAjaxLink(
+                'achievements/not_records',
+                'Not earned',
+                $activeUser,
+                Input::get('ref_id'),
+                array_merge(array('limit' => $achvPerLoad),Input::except(array('ref_id', 'fb_uid')))
+             );
+    ?>           
+</div>
+
 <div class="achievments">
     <?php
         foreach($achievements as $cat)
